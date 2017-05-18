@@ -36,6 +36,7 @@ public class CircleExample extends Application {
           public void handle(ActionEvent ae) 
           {
               circle.setTranslateX(circle.getTranslateX() + ballSpeed);
+              circle.setTranslateY(circle.getTranslateY() + ballSpeed);              
             }
        })                
       );
