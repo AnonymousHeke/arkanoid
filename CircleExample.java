@@ -25,14 +25,12 @@ import javafx.util.Duration;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-import java.util.Random;
          
 public class CircleExample extends Application { 
     
    public static final double SCENE_WIDTH = 500;
    public static final double SCENE_HEIGHT = 500; 
-   public static final double RADIUS = 5; 
+   public static final double BALL_RADIUS = 5; 
    
    private static double ballXSpeed;
    private static double ballYSpeed;   
@@ -43,22 +41,20 @@ public class CircleExample extends Application {
    @Override 
    public void start(Stage stage) 
    {
-      int x = new Random().nextInt(495);
-      int y = new Random().nextInt(495); 
       ballXSpeed = 2;
       ballYSpeed = 2;
       playerXSpeed = 0; 
       Text gamePaused = new Text("");      
       
       Circle circle = new Circle();          
-      circle.setCenterX(x); 
-      circle.setCenterY(y); 
-      circle.setRadius(RADIUS);
+      circle.setCenterX(250); 
+      circle.setCenterY(SCENE_HEIGHT-21); 
+      circle.setRadius(BALL_RADIUS);
       circle.setFill(Color.RED);
       
       Rectangle player = new Rectangle();
-      player.setX(250);
-      player.setY(500-15);
+      player.setX(220);
+      player.setY(SCENE_HEIGHT-15);
       player.setWidth(60);
       player.setHeight(10);
       player.setArcWidth(20);
@@ -83,12 +79,12 @@ public class CircleExample extends Application {
                   ballYSpeed *= -1;
               }              
               
-              if(circle.getBoundsInParent().getMinX() <= 0 || circle.getBoundsInParent().getMaxX() >= scene.getWidth())
+              if(circle.getBoundsInParent().getMinX() <= 0 || circle.getBoundsInParent().getMaxX() >= SCENE_WIDTH)
               {
                   ballXSpeed = -ballXSpeed;
               }    
               
-              if(player.getBoundsInParent().getMinX() <= 0 || player.getBoundsInParent().getMaxX() >= scene.getWidth())
+              if(player.getBoundsInParent().getMinX() <= 0 || player.getBoundsInParent().getMaxX() >= SCENE_WIDTH)
               {
                   playerXSpeed = 0;
               }                              
@@ -97,7 +93,7 @@ public class CircleExample extends Application {
               {
                   ballYSpeed = -ballYSpeed;  
               }
-              else if(circle.getBoundsInParent().getMinY() >= scene.getHeight())
+              else if(circle.getBoundsInParent().getMinY() >= SCENE_HEIGHT)
               {
                  Text gameOver = new Text("Game Over");
                  gameOver.setX(230) ; 
@@ -118,6 +114,11 @@ public class CircleExample extends Application {
           {           
               if(event.getCode() == KeyCode.LEFT)
               {
+                  if(!timeline.getStatus().equals(Animation.Status.RUNNING))
+                  {
+                      timeline.play();                       
+                  }                  
+                  
                   if(player.getBoundsInParent().getMinX() == 0)
                   {
                       playerXSpeed = 0;
@@ -130,6 +131,11 @@ public class CircleExample extends Application {
               
               if(event.getCode() == KeyCode.RIGHT)
               {
+                  if(!timeline.getStatus().equals(Animation.Status.RUNNING))
+                  {
+                      timeline.play();                       
+                  }
+                  
                   if(player.getBoundsInParent().getMaxX() == SCENE_WIDTH)
                   {
                       playerXSpeed = 0;
@@ -159,8 +165,7 @@ public class CircleExample extends Application {
       }
       );         
                  
-      timeline.setCycleCount(Timeline.INDEFINITE);
-      timeline.play();     
+      timeline.setCycleCount(Timeline.INDEFINITE);    
       
       stage.setScene(scene);          
       stage.show();      
