@@ -133,7 +133,8 @@ public class CircleExample extends Application {
               {
                   if(!timeline.getStatus().equals(Animation.Status.RUNNING))
                   {
-                      timeline.play();                       
+                      timeline.play();    
+                      ballXSpeed *= -1;
                   }
                   
                   if(player.getBoundsInParent().getMaxX() == SCENE_WIDTH)
